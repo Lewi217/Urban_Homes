@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
+import { AdminAuthProvider } from '@/context/AdminAuthContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -25,11 +26,13 @@ export default function RootLayout({
         <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
             <body className="font-sans">
                 <AuthProvider>
-                    <div className="flex flex-col min-h-screen">
-                        <Navbar />
-                        <main className="flex-grow">{children}</main>
-                        <Footer />
-                    </div>
+                    <AdminAuthProvider>
+                        <div className="flex flex-col min-h-screen">
+                            <Navbar />
+                            <main className="flex-grow">{children}</main>
+                            <Footer />
+                        </div>
+                    </AdminAuthProvider>
                 </AuthProvider>
             </body>
         </html>

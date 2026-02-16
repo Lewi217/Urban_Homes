@@ -7,6 +7,9 @@ export const formatCurrency = (amount: number): string => {
     }).format(amount);
 };
 
+// Alias for formatCurrency
+export const formatAmount = formatCurrency;
+
 export const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('en-KE', {

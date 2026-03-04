@@ -105,13 +105,21 @@ export default function AdminProperties() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredProperties.map((property) => (
                             <Card key={property.id} className="overflow-hidden">
-                                {property.coverPhoto && (
+                                {property.coverPhoto ? (
                                     <img
                                         src={property.coverPhoto}
                                         alt={property.name}
                                         className="w-full h-48 object-cover"
+                                        onError={(e) => {
+                                            e.currentTarget.onerror = null;
+                                            e.currentTarget.style.display = 'none';
+                                            e.currentTarget.parentElement?.querySelector('.img-fallback')?.classList.remove('hidden');
+                                        }}
                                     />
-                                )}
+                                ) : null}
+                                <div className="img-fallback hidden w-full h-48 bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                                    <span className="text-5xl">🏘️</span>
+                                </div>
                                 <div className="p-4">
                                     <h3 className="text-lg font-serif font-bold text-gray-900 mb-2">
                                         {property.name}

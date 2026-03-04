@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { Property } from '@/types';
 import Card from './ui/Card';
@@ -21,17 +20,25 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 {/* Property Image */}
                 <div className="relative h-48 bg-gray-200">
                     {property.coverPhoto ? (
-                        <Image
+                        <img
                             src={property.coverPhoto}
                             alt={property.name}
-                            fill
-                            className="object-cover"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = '';
+                                e.currentTarget.style.display = 'none';
+                                const fallback = e.currentTarget.parentElement?.querySelector('.fallback-icon');
+                                if (fallback) (fallback as HTMLElement).style.display = 'flex';
+                            }}
                         />
-                    ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-primary-100">
-                            <span className="text-primary-600 font-semibold">No Image</span>
-                        </div>
-                    )}
+                    ) : null}
+                    <div
+                        className="fallback-icon w-full h-full items-center justify-center bg-gradient-to-br from-primary-100 to-primary-200"
+                        style={{ display: property.coverPhoto ? 'none' : 'flex' }}
+                    >
+                        <span className="text-4xl">🏡</span>
+                    </div>
                     {!property.availability && (
                         <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                             Unavailable

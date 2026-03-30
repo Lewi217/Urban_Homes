@@ -9,6 +9,7 @@ import { Property } from '@/types';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { formatAmount } from '@/utils/formatters';
+import AddPropertyModal from '@/components/admin/AddPropertyModal';
 
 export default function AdminProperties() {
     const router = useRouter();
@@ -17,6 +18,7 @@ export default function AdminProperties() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [showAddModal, setShowAddModal] = useState(false);
 
     useEffect(() => {
         if (!authLoading && !isAdminAuthenticated) {
@@ -73,9 +75,21 @@ export default function AdminProperties() {
                             </Link>
                             <h1 className="text-3xl font-serif font-bold text-primary-900">Property Management</h1>
                         </div>
+                        <Button variant="primary" onClick={() => setShowAddModal(true)}>
+                            + Add Property
+                        </Button>
                     </div>
                 </div>
             </header>
+
+            <AddPropertyModal
+                isOpen={showAddModal}
+                onClose={() => setShowAddModal(false)}
+                onSuccess={(newProperty) => {
+                    setProperties(prev => [newProperty, ...prev]);
+                    setShowAddModal(false);
+                }}
+            />
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Search */}
